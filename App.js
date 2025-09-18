@@ -20,6 +20,10 @@ const questions = [
   "What subject would you like to study?"
 ];
 
+const SAT_Icon = require('./assets/SAT_Icon.png')
+const GED_Icon = require('./assets/GED_Icon.png')
+const IELTS_Icon = require('./assets/IELTS_Icon.png')
+
 const styles = StyleSheet.create({
   handleSettingsTab: { fontSize: 16, color: "black" },
   handleSearchContainer: { padding: 10, paddingTop: 0, alignItems: "center" },
@@ -30,7 +34,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 30,
     paddingHorizontal: 15,
-    backgroundColor: "#fff",
+    backgroundColor: "#f1eeeeff",
   },
   handleTopicSelection: {
     flexDirection: "row",
@@ -97,7 +101,7 @@ function Home() {
   const [query, setQuery] = useState("");
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{backgroundColor: "#fff"}}>
 
       <View>
         <Text style={{fontSize: 35, padding: 20, paddingBottom: 10, fontWeight: "700"}}>Hi, Hok!</Text>
@@ -118,25 +122,27 @@ function Home() {
         <View style={styles.handleTopicSelection}>
           <TouchableOpacity style={styles.handleTopicIcon}>
             <Image
-              source={{ uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRF8hfZimYfWMEFKoWljw-Jf_kfV9EI7xxOvQ&s"}}
+              source={ SAT_Icon }
               style={styles.handleTopicImage}
             />
           </TouchableOpacity>
           <TouchableOpacity style={styles.handleTopicIcon}>
             <Image
-              source={{ uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtIMjXS-m9gAHD-oD_d2vWUSAgAm_4wVULGw&s"}}
+              // Previous -- https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtIMjXS-m9gAHD-oD_d2vWUSAgAm_4wVULGw&s
+              source={ GED_Icon }
+              style={styles.handleTopicImage}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.handleTopicIcon}>
+            <Image
+            // Previous -- https://vtlogo.com/wp-content/uploads/2020/06/international-english-language-testing-system-ielts-vector-logo-small.png
+              source={ IELTS_Icon }
               style={styles.handleTopicImage}
             />
           </TouchableOpacity>
           <TouchableOpacity style={styles.handleTopicIcon}>
             <Image
               source={{ uri: "https://edubooks.uk/cdn/shop/collections/A-LEVEL_-_BOOKS_FOR_THE_FUTURE.png?v=1725110872"}}
-              style={styles.handleTopicImage}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.handleTopicIcon}>
-            <Image
-              source={{ uri: "https://vtlogo.com/wp-content/uploads/2020/06/international-english-language-testing-system-ielts-vector-logo-small.png"}}
               style={styles.handleTopicImage}
             />
           </TouchableOpacity>
