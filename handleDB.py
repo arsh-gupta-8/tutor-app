@@ -1,26 +1,26 @@
-# from dotenv import load_dotenv
-# from pymongo import MongoClient
-# import os
+from dotenv import load_dotenv
+from flask_cors import CORS
+from flask import Flask, jsonify
+from pymongo import MongoClient
+import os
 
-# load_dotenv()
+load_dotenv()
 
-# mongo_uri = os.getenv("MONGO_URI")
+app = Flask(__name__)
+CORS(app)
 
-# db_name = "TestDB"
-# client = MongoClient("mongodb+srv://ARSHmello:<7IrKiatsT0V4yeR2>@tutorapp.us6gble.mongodb.net/?retryWrites=true&w=majority&appName=TutorApp")
-# db = client[db_name]
+mongo_uri = os.getenv("MONGO_URI")
+dbUsers = "dbInfo"
+client = MongoClient(mongo_uri)
+dbInfo = client[dbUsers]
 
-# collection = db["TestCollection"]
-# result = collection.insert_one({"test": "success"})
+tableUser = dbInfo["tableUser"]
 
-from pymongo.mongo_client import MongoClient
-from pymongo.server_api import ServerApi
-uri = "mongodb+srv://ARSHmello:<7IrKiatsT0V4yeR2>@tutorapp.us6gble.mongodb.net/?retryWrites=true&w=majority&appName=TutorApp"
-# Create a new client and connect to the server
-client = MongoClient(uri, server_api=ServerApi('1'))
-# Send a ping to confirm a successful connection
-try:
-    client.admin.command('ping')
-    print("Pinged your deployment. You successfully connected to MongoDB!")
-except Exception as e:
-    print(e)
+# Endpoint to get all users
+@app.route("/users", methods=["GET"])
+def get_users():
+    users = list(tableUser.find({}, {"_id": 0}))  # exclude MongoDB _id
+    return jsonify(users)
+
+if __name__ == "__main__":
+    app.run(debug=True)

@@ -1,12 +1,14 @@
 import 'react-native-gesture-handler';
 
 import * as React from 'react';
-import { Text, TextInput, Image, View, StyleSheet, SafeAreaView, Button, TouchableOpacity, Animated, Dimensions } from 'react-native';
+import { Text, TextInput, Image, View, StyleSheet, Button, TouchableOpacity, Animated, Dimensions } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ScrollView, GestureHandlerRootView } from 'react-native-gesture-handler';
+import { getUsers } from './getUsers.js';
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
@@ -96,6 +98,13 @@ const styles = StyleSheet.create({
   }
 });
 
+const usersList = [];
+
+async function makeUserList() {
+  const data = await getUsers();
+  usersList.length = 0;
+  usersList.push(...data);
+}
 
 function Home() {
   const [query, setQuery] = useState("");
@@ -292,6 +301,10 @@ function TutorStackScreen() {
 
 function Tutor({ navigation }) {
   const [query, setQuery] = useState("");
+  
+  useEffect(() => {
+    makeUserList();
+  }, []);
 
   return (
     <SafeAreaView style={{ flex:1, alignItems:'center' }}>
@@ -310,6 +323,31 @@ function Tutor({ navigation }) {
       >
         <Text style={{fontSize: 30}}>Find a Tutor!</Text>
       </TouchableOpacity>
+
+      {usersList.map(user => (
+        <View key={user.UserID} style={{ marginTop: 10 }}>
+          <Text>{user.Forename} {user.Surname}</Text>
+          <Text>{user.Email}</Text>
+        </View>
+      ))}
+
+      {/* {usersList.map((user) => {
+        const userID = user.UserID;
+        const forename = user.Forename;
+        const surname = user.Surname;
+        const email = user.Email;
+        const phoneNumber = user.Phone_Number;
+
+        console.log(userID, forename, surname, email, phoneNumber);
+
+        return (
+          <View key={userID} style={{ marginTop: 10 }}>
+            <Text>{forename} {surname}</Text>
+            <Text>{email}</Text>
+          </View>
+        );
+      })} */}
+
     </SafeAreaView>
   );
 }
