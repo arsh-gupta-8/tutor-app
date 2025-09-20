@@ -19,8 +19,9 @@ tableUser = dbInfo["tableUser"]
 # Endpoint to get all users
 @app.route("/users", methods=["GET"])
 def get_users():
-    users = list(tableUser.find({}, {"_id": 0}))  # exclude MongoDB _id
+    users = list(tableUser.find({}, {"_id": 0}))
     return jsonify(users)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=False)
